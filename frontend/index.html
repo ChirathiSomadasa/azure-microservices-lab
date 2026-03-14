@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SLIIT Microservices Frontend</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; max-width: 500px; }
+    h1 { color: #2d3748; }
+    p { color: #718096; }
+    button { background: #4299e1; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 16px; }
+    button:hover { background: #3182ce; }
+    #result { margin-top: 20px; padding: 16px; background: #ebf8ff; border-radius: 8px; color: #2b6cb0; display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Azure Microservices Lab</h1>
+    <p>Azure Microservices Deployment - SE4010</p>
+    <button onclick="checkGateway()">Check Gateway Status</button>
+    <div id="result"></div>
+  </div>
+  <script>
+    const GATEWAY_URL = window.REACT_APP_API_URL || 'http://localhost:3000';
+    async function checkGateway() {
+      const result = document.getElementById('result');
+      result.style.display = 'block';
+      result.textContent = 'Checking...';
+      try {
+        const res = await fetch(GATEWAY_URL + '/health');
+        const data = await res.json();
+        result.textContent = 'Gateway status: ' + JSON.stringify(data);
+      } catch (e) {
+        result.textContent = 'Could not reach gateway: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
